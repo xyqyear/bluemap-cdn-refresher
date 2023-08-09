@@ -18,22 +18,17 @@ def connect_db():
     return conn, cursor
 
 
-def insert_file(path, modify_date, sha256):
-    conn, cursor = connect_db()
+def insert_file(cursor, path, modify_date, sha256):
     cursor.execute("INSERT INTO files VALUES (?, ?, ?)", (path, modify_date, sha256))
-    conn.commit()
 
 
-def update_file(path, modify_date, sha256):
-    conn, cursor = connect_db()
+def update_file(cursor, path, modify_date, sha256):
     cursor.execute(
         "UPDATE files SET modify_date = ?, sha256 = ? WHERE path = ?",
         (modify_date, sha256, path),
     )
-    conn.commit()
 
 
-def get_file(path):
-    conn, cursor = connect_db()
+def get_file(cursor, path):
     cursor.execute("SELECT modify_date, sha256 FROM files WHERE path = ?", (path,))
     return cursor.fetchone()
