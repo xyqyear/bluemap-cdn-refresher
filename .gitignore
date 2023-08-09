@@ -1,0 +1,5 @@
+test/
+.vscode/
+database.db
+files_data.db
+file_list.txt

@@ -1,0 +1,6 @@
+database_file: "database.db"
+file_list: "file_list.txt"
+monitor:
+  folders:
+    - "test"
+  interval: 900
