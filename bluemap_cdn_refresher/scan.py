@@ -3,7 +3,7 @@ import os
 
 from .config import config
 from .db import connect_db, get_file, insert_file, update_file
-from .utils import compute_sha256
+from .utils import compute_xxh32
 
 
 def initial_scan():
@@ -16,8 +16,8 @@ def initial_scan():
                     logging.debug("Scanning %s", file)
                     file_path = os.path.join(root, file)
                     modify_date = int(os.path.getmtime(file_path))
-                    sha256 = compute_sha256(file_path)
-                    insert_file(cursor, file_path, modify_date, sha256)
+                    xxh32 = compute_xxh32(file_path)
+                    insert_file(cursor, file_path, modify_date, xxh32)
         conn.commit()
 
 
@@ -36,14 +36,14 @@ def periodic_scan():
                     if row:
                         if modify_date > row[0]:
                             modified_files.append(file_path)
-                            sha256 = compute_sha256(file_path)
-                            if sha256 != row[1]:
-                                logging.debug("SHA256 changed for %s", file_path)
-                                update_file(cursor, file_path, modify_date, sha256)
+                            xxh32 = compute_xxh32(file_path)
+                            if xxh32 != row[1]:
+                                logging.debug("xxh32 changed for %s", file_path)
+                                update_file(cursor, file_path, modify_date, xxh32)
                                 sha_changed_files.append(file_path)
                     else:
-                        sha256 = compute_sha256(file_path)
-                        insert_file(cursor, file_path, modify_date, sha256)
+                        xxh32 = compute_xxh32(file_path)
+                        insert_file(cursor, file_path, modify_date, xxh32)
         conn.commit()
 
     return modified_files, sha_changed_files

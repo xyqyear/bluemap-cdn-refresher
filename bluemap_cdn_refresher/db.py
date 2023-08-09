@@ -10,7 +10,7 @@ def connect_db():
         CREATE TABLE IF NOT EXISTS files (
             path TEXT PRIMARY KEY,
             modify_date INTEGER,
-            sha256 TEXT
+            xxh32 INTEGER
         )
     """
     )
@@ -18,17 +18,17 @@ def connect_db():
     return conn, cursor
 
 
-def insert_file(cursor, path, modify_date, sha256):
-    cursor.execute("INSERT INTO files VALUES (?, ?, ?)", (path, modify_date, sha256))
+def insert_file(cursor, path, modify_date, xxh32):
+    cursor.execute("INSERT INTO files VALUES (?, ?, ?)", (path, modify_date, xxh32))
 
 
-def update_file(cursor, path, modify_date, sha256):
+def update_file(cursor, path, modify_date, xxh32):
     cursor.execute(
-        "UPDATE files SET modify_date = ?, sha256 = ? WHERE path = ?",
-        (modify_date, sha256, path),
+        "UPDATE files SET modify_date = ?, xxh32 = ? WHERE path = ?",
+        (modify_date, xxh32, path),
     )
 
 
 def get_file(cursor, path):
-    cursor.execute("SELECT modify_date, sha256 FROM files WHERE path = ?", (path,))
+    cursor.execute("SELECT modify_date, xxh32 FROM files WHERE path = ?", (path,))
     return cursor.fetchone()

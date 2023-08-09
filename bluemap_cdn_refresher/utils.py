@@ -1,23 +1,16 @@
-import hashlib
-import json
-import time
-import logging
-
-from .file import get_data
+import xxhash
+import gzip
 
 
-def compute_sha256(file_path):
+def compute_xxh32(file_path):
     if file_path.endswith(".json.gz"):
-        before = time.perf_counter()
-        json_data = get_data(file_path)
-        then = time.perf_counter()
-        logging.debug(f"read data: {then - before}")
-        sha256 = hashlib.sha256(json.dumps(json_data).encode()).hexdigest()
-        logging.debug(f"sha256: {time.perf_counter() - then}")
-        return sha256
+        with gzip.open(file_path, "rb") as f:
+            raw_json = f.read()
+        key_string = raw_json[88:92]
+        if key_string != b'data':
+            raise ValueError(f"the data format changed for bluemap")
+        xxh32 = xxhash.xxh32(key_string[93:]).intdigest()
+        return xxh32
     else:
-        h = hashlib.sha256()
-        with open(file_path, "rb") as file:
-            while chunk := file.read(4096):
-                h.update(chunk)
-        return h.hexdigest()
+        file_content = open(file_path, "rb").read()
+        return xxhash.xxh32(file_content).intdigest()

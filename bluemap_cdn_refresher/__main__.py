@@ -22,15 +22,17 @@ def main():
 
     if command == "scan":
         modified_files, sha_changed_files = periodic_scan()
-        print(f"Number of modified files: {len(modified_files)}")
-        print(f"Number of files with changed SHA256: {len(sha_changed_files)}")
+        logging.info(f"Number of modified files: {len(modified_files)}")
+        logging.info(f"Number of files with changed xxh32: {len(sha_changed_files)}")
         return
 
     if command == "monitor":
         while True:
             modified_files, sha_changed_files = periodic_scan()
-            print(f"Number of modified files: {len(modified_files)}")
-            print(f"Number of files with changed SHA256: {len(sha_changed_files)}")
+            logging.info(f"Number of modified files: {len(modified_files)}")
+            logging.info(
+                f"Number of files with changed xxh32: {len(sha_changed_files)}"
+            )
 
             with open(config["file_list"], "w") as file:
                 for path in sha_changed_files:
