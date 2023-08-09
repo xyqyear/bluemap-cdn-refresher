@@ -1,8 +1,14 @@
+import logging
 import sys
 import time
+
 from .config import config
 from .db import connect_db
 from .scan import initial_scan, periodic_scan
+
+logging.basicConfig(
+    level=config["logging_level"],
+)
 
 
 def main():
