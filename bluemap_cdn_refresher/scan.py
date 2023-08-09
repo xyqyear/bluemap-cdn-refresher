@@ -14,6 +14,8 @@ def initial_scan():
         for folder in config["monitor"]["folders"]:
             for root, dirs, files in os.walk(folder):
                 for file in files:
+                    if file.endswith(".filepart"):
+                        continue
                     file_path = os.path.join(root, file)
                     modify_date = int(os.path.getmtime(file_path))
                     xxh32 = compute_xxh32(file_path)
@@ -32,6 +34,8 @@ def periodic_scan():
         for folder in config["monitor"]["folders"]:
             for root, dirs, files in os.walk(folder):
                 for file in files:
+                    if file.endswith(".filepart"):
+                        continue
                     file_path = os.path.join(root, file)
                     modify_date = int(os.path.getmtime(file_path))
                     row = get_file(cursor, file_path)
