@@ -1,8 +1,9 @@
+import logging
 import os
-from datetime import datetime
-from .utils import compute_sha256
-from .db import update_file, get_file, insert_file, connect_db
+
 from .config import config
+from .db import connect_db, get_file, insert_file, update_file
+from .utils import compute_sha256
 
 
 def initial_scan():
@@ -12,6 +13,7 @@ def initial_scan():
         for folder in config["monitor"]["folders"]:
             for root, dirs, files in os.walk(folder):
                 for file in files:
+                    logging.debug("Scanning %s", file)
                     file_path = os.path.join(root, file)
                     modify_date = int(os.path.getmtime(file_path))
                     sha256 = compute_sha256(file_path)
@@ -36,6 +38,7 @@ def periodic_scan():
                             modified_files.append(file_path)
                             sha256 = compute_sha256(file_path)
                             if sha256 != row[1]:
+                                logging.debug("SHA256 changed for %s", file_path)
                                 update_file(cursor, file_path, modify_date, sha256)
                                 sha_changed_files.append(file_path)
                     else:
