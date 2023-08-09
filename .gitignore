@@ -3,3 +3,4 @@ test/
 database.db
 files_data.db
 file_list.txt
+config.yaml
