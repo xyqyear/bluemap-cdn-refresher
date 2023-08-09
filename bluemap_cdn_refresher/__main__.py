@@ -8,6 +8,8 @@ from .scan import initial_scan, periodic_scan
 
 logging.basicConfig(
     level=config["logging_level"],
+    format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
 )
 
 
