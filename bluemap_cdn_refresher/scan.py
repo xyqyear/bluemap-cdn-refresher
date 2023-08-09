@@ -8,16 +8,18 @@ from .utils import compute_xxh32
 
 def initial_scan():
     conn, cursor = connect_db()
+    count = 0
 
     with conn:
         for folder in config["monitor"]["folders"]:
             for root, dirs, files in os.walk(folder):
                 for file in files:
-                    logging.debug("Scanning %s", file)
                     file_path = os.path.join(root, file)
                     modify_date = int(os.path.getmtime(file_path))
                     xxh32 = compute_xxh32(file_path)
                     insert_file(cursor, file_path, modify_date, xxh32)
+                    count += 1
+                logging.info("Inserted %d files into database", count)
         conn.commit()
 
 
