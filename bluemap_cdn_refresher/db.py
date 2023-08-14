@@ -13,11 +13,11 @@ class Database:
     @staticmethod
     def exists(path=config["database_path"]):
         return os.path.exists(path)
-    
+
     @staticmethod
     def pack_fileinfo(modify_date, xxh32):
         return struct.pack("<II", modify_date, xxh32)
-    
+
     @staticmethod
     def unpack_fileinfo(data):
         return struct.unpack("<II", data)

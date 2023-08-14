@@ -7,7 +7,7 @@ def compute_xxh32(file_path):
         with gzip.open(file_path, "rb") as f:
             raw_json = f.read()
         key_string = raw_json[88:92]
-        if key_string != b'data':
+        if key_string != b"data":
             raise ValueError(f"the data format changed for bluemap")
         xxh32 = xxhash.xxh32(raw_json[93:]).intdigest()
         return xxh32
