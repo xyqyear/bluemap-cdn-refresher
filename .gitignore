@@ -1,7 +1,6 @@
 test/
 .vscode/
-database.db
-files_data.db
+db/
 file_list.txt
 config.yaml
 __pycache__/

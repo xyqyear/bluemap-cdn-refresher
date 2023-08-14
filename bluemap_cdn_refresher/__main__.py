@@ -3,7 +3,7 @@ import sys
 import time
 
 from .config import config
-from .db import connect_db
+from .db import Database
 from .scan import initial_scan, periodic_scan
 
 logging.basicConfig(
@@ -14,10 +14,7 @@ logging.basicConfig(
 
 
 def main():
-    conn, cursor = connect_db()
-
-    cursor.execute("SELECT COUNT(*) FROM files")
-    if cursor.fetchone()[0] == 0:
+    if not Database.exists():
         initial_scan()
 
     command = sys.argv[1] if len(sys.argv) > 1 else ""

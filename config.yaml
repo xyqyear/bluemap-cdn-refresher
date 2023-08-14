@@ -1,6 +1,7 @@
-database_file: "database.db"
+database_path: "db"
 file_list: "file_list.txt"
 monitor:
   folders:
     - "test"
   interval: 900
+logging_level: "DEBUG"
