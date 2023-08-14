@@ -27,14 +27,17 @@ def main():
 
     elif command == "monitor":
         while True:
-            if config["minecraft_server"]["enabled"] and get_online_player_number() > 0:
+            if not (
+                config["minecraft_server"]["enabled"]
+                and get_online_player_number() == 0
+            ):
                 modified_files, sha_changed_files = periodic_scan()
                 logging.info(f"Number of modified files: {len(modified_files)}")
                 logging.info(
                     f"Number of files with changed xxh32: {len(sha_changed_files)}"
                 )
 
-                time.sleep(config["monitor"]["interval"])
+            time.sleep(config["monitor"]["interval"])
 
 
 if __name__ == "__main__":
