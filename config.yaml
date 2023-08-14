@@ -1,4 +1,8 @@
 database_path: "db"
+minecraft_server:
+  enabled: true
+  host: "localhost"
+  port: 25565
 monitor:
   folders:
     - "test"

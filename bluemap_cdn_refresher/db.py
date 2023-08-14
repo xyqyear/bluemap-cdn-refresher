@@ -46,4 +46,6 @@ class Database:
         self.insert_fileinfo(path, modify_date, xxh32)
 
     def get_fileinfo(self, path):
-        return self.unpack_fileinfo(self.db.get(path.encode()))
+        data = self.db.get(path.encode())
+        if data:
+            return self.unpack_fileinfo(data)

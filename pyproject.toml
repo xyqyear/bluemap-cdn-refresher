@@ -11,6 +11,7 @@ python = "^3.11"
 ruamel-yaml = "^0.17.32"
 xxhash = "^3.3.0"
 plyvel = "^1.5.0"
+mcstatus = "^11.0.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
