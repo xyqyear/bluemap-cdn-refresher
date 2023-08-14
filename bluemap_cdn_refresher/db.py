@@ -33,6 +33,9 @@ class Database:
         self.wb.write()
         if close:
             self.wb = None
+    
+    def close(self):
+        self.db.close()
 
     def insert_fileinfo(self, path, modify_date, xxh32):
         if self.wb is None:

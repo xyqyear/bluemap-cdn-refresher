@@ -28,6 +28,7 @@ def initial_scan():
 
             logging.info("Inserted %d files into database", count)
     db.commit_transaction()
+    db.close()
 
 
 def periodic_scan():
@@ -57,5 +58,6 @@ def periodic_scan():
                     db.insert_fileinfo(file_path, modify_date, xxh32)
         db.commit_transaction(close=False)
     db.commit_transaction()
+    db.close()
 
     return modified_files, sha_changed_files
